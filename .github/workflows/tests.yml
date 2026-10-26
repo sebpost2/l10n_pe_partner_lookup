@@ -1,0 +1,34 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  odoo:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres:16
+        env:
+          POSTGRES_USER: odoo
+          POSTGRES_PASSWORD: odoo
+          POSTGRES_DB: postgres
+        options: >-
+          --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+
+      # Stock odoo:19 image, same as docker-compose.yml. --test-tags keeps it to this
+      # module's tests instead of every dependency's.
+      - name: Install the module and run its tests
+        run: |
+          docker run --rm --network ${{ job.services.db.network }} \
+            -v "$PWD/addons:/mnt/extra-addons" odoo:19 \
+            odoo -d test -i l10n_pe_partner_lookup --test-enable --test-tags /l10n_pe_partner_lookup \
+              --stop-after-init --without-demo=all --db_host=db --db_user=odoo --db_password=odoo \
+            2>&1 | tee odoo.log
+
+      # Odoo can exit 0 having run nothing (e.g. a test file not imported): require a real run.
+      - name: Check that tests ran and none failed
+        run: grep -E "0 failed, 0 error\(s\) of [1-9][0-9]* tests" odoo.log

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_pe_lookup" model="ir.ui.view">
+        <field name="name">res.partner.form.pe.lookup</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-warning mb-0" role="alert" invisible="not pe_sunat_warning">
+                    SUNAT lists this taxpayer as
+                    <field name="pe_sunat_state" class="fw-bold" readonly="1"/> /
+                    <field name="pe_sunat_condition" class="fw-bold" readonly="1"/>.
+                    Check before invoicing.
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='vat']" position="after">
+                <button name="action_pe_lookup" type="object" string="Look up in SUNAT / RENIEC"
+                        class="btn-link" icon="fa-search" colspan="2" invisible="not vat"/>
+                <field name="pe_sunat_state" invisible="not pe_sunat_state"/>
+                <field name="pe_sunat_condition" invisible="not pe_sunat_condition"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

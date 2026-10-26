@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_pe_lookup" model="ir.ui.view">
+        <field name="name">res.config.settings.form.pe.lookup</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='contacts_setting_container']" position="inside">
+                <setting id="pe_partner_lookup" string="RUC/DNI lookup"
+                         help="Token for SUNAT and RENIEC lookups through decolecta.com">
+                    <field name="pe_lookup_token" password="True"/>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>
