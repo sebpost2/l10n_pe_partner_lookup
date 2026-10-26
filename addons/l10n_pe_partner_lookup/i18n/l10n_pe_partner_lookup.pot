@@ -1,0 +1,124 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_pe_partner_lookup
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20260817\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-26 21:43+0000\n"
+"PO-Revision-Date: 2026-10-26 21:43+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_pe_partner_lookup
+#. odoo-python
+#: code:addons/l10n_pe_partner_lookup/models/res_partner.py:0
+msgid "%s is not a valid RUC: the check digit does not match."
+msgstr ""
+
+#. module: l10n_pe_partner_lookup
+#: model_terms:ir.ui.view,arch_db:l10n_pe_partner_lookup.view_partner_form_pe_lookup
+msgid ""
+".\n"
+"                    Check before invoicing."
+msgstr ""
+
+#. module: l10n_pe_partner_lookup
+#: model:ir.model,name:l10n_pe_partner_lookup.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_pe_partner_lookup
+#: model:ir.model,name:l10n_pe_partner_lookup.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_pe_partner_lookup
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_config_settings__pe_lookup_token
+msgid "Decolecta API Token"
+msgstr ""
+
+#. module: l10n_pe_partner_lookup
+#. odoo-python
+#: code:addons/l10n_pe_partner_lookup/models/res_partner.py:0
+msgid "Decolecta rejected the API token. Check it in Settings."
+msgstr ""
+
+#. module: l10n_pe_partner_lookup
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_pe_partner_lookup
+#. odoo-python
+#: code:addons/l10n_pe_partner_lookup/models/res_partner.py:0
+msgid "Enter an 11-digit RUC or an 8-digit DNI in the Tax ID field."
+msgstr ""
+
+#. module: l10n_pe_partner_lookup
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_config_settings__id
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_pe_partner_lookup
+#: model_terms:ir.ui.view,arch_db:l10n_pe_partner_lookup.view_partner_form_pe_lookup
+msgid "Look up in SUNAT / RENIEC"
+msgstr ""
+
+#. module: l10n_pe_partner_lookup
+#. odoo-python
+#: code:addons/l10n_pe_partner_lookup/models/res_partner.py:0
+msgid "No SUNAT/RENIEC record was found for %s."
+msgstr ""
+
+#. module: l10n_pe_partner_lookup
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_partner__pe_sunat_warning
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_users__pe_sunat_warning
+msgid "Pe Sunat Warning"
+msgstr ""
+
+#. module: l10n_pe_partner_lookup
+#: model_terms:ir.ui.view,arch_db:l10n_pe_partner_lookup.res_config_settings_view_form_pe_lookup
+msgid "RUC/DNI lookup"
+msgstr ""
+
+#. module: l10n_pe_partner_lookup
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_partner__pe_sunat_condition
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_users__pe_sunat_condition
+msgid "SUNAT Condition"
+msgstr ""
+
+#. module: l10n_pe_partner_lookup
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_partner__pe_sunat_state
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_users__pe_sunat_state
+msgid "SUNAT Status"
+msgstr ""
+
+#. module: l10n_pe_partner_lookup
+#: model_terms:ir.ui.view,arch_db:l10n_pe_partner_lookup.view_partner_form_pe_lookup
+msgid "SUNAT lists this taxpayer as"
+msgstr ""
+
+#. module: l10n_pe_partner_lookup
+#. odoo-python
+#: code:addons/l10n_pe_partner_lookup/models/res_partner.py:0
+msgid "Set the Decolecta API token in Settings > General Settings > Contacts."
+msgstr ""
+
+#. module: l10n_pe_partner_lookup
+#. odoo-python
+#: code:addons/l10n_pe_partner_lookup/models/res_partner.py:0
+msgid "The lookup service is not responding. Try again in a moment."
+msgstr ""
+
+#. module: l10n_pe_partner_lookup
+#: model_terms:ir.ui.view,arch_db:l10n_pe_partner_lookup.res_config_settings_view_form_pe_lookup
+msgid "Token for SUNAT and RENIEC lookups through decolecta.com"
+msgstr ""

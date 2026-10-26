@@ -61,6 +61,14 @@ class TestPartnerLookup(TransactionCase):
             self.partner.action_pe_lookup()
         get.assert_not_called()
 
+    def test_messages_are_in_spanish_for_a_peruvian_user(self):
+        # es_PE reads the module's es.po (Odoo falls back es_PE -> es / es_419).
+        self.env["res.lang"]._activate_lang("es_PE")
+        self.partner.vat = "20601030014"
+        with patch(GET) as get, self.assertRaisesRegex(UserError, "el dígito verificador no coincide"):
+            self.partner.with_context(lang="es_PE").action_pe_lookup()
+        get.assert_not_called()
+
     def test_number_of_the_wrong_length_is_rejected(self):
         self.partner.vat = "123456789"
         with patch(GET) as get, self.assertRaisesRegex(UserError, "11-digit RUC or an 8-digit DNI"):

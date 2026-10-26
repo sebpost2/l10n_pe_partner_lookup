@@ -7,6 +7,10 @@ on:
 jobs:
   odoo:
     runs-on: ubuntu-latest
+    # Without and with demo data: the tests must not depend on it, and data/demo.xml must load.
+    strategy:
+      matrix:
+        demo: ["--without-demo", "--with-demo"]
     services:
       db:
         image: postgres:16
@@ -26,7 +30,7 @@ jobs:
           docker run --rm --network ${{ job.services.db.network }} \
             -v "$PWD/addons:/mnt/extra-addons" odoo:19 \
             odoo -d test -i l10n_pe_partner_lookup --test-enable --test-tags /l10n_pe_partner_lookup \
-              --stop-after-init --without-demo=all --db_host=db --db_user=odoo --db_password=odoo \
+              --stop-after-init ${{ matrix.demo }} --db_host=db --db_user=odoo --db_password=odoo \
             2>&1 | tee odoo.log
 
       # Odoo can exit 0 having run nothing (e.g. a test file not imported): require a real run.

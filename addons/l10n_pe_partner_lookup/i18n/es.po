@@ -1,0 +1,132 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_pe_partner_lookup
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20260817\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-26 21:43+0000\n"
+"PO-Revision-Date: 2026-10-26 21:43+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_pe_partner_lookup
+#. odoo-python
+#: code:addons/l10n_pe_partner_lookup/models/res_partner.py:0
+msgid "%s is not a valid RUC: the check digit does not match."
+msgstr "%s no es un RUC válido: el dígito verificador no coincide."
+
+#. module: l10n_pe_partner_lookup
+#: model_terms:ir.ui.view,arch_db:l10n_pe_partner_lookup.view_partner_form_pe_lookup
+msgid ""
+".\n"
+"                    Check before invoicing."
+msgstr ""
+".\n"
+"                    Revise antes de facturarle."
+
+#. module: l10n_pe_partner_lookup
+#: model:ir.model,name:l10n_pe_partner_lookup.model_res_config_settings
+msgid "Config Settings"
+msgstr "Ajustes de configuración"
+
+#. module: l10n_pe_partner_lookup
+#: model:ir.model,name:l10n_pe_partner_lookup.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: l10n_pe_partner_lookup
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_config_settings__pe_lookup_token
+msgid "Decolecta API Token"
+msgstr "Token de la API de Decolecta"
+
+#. module: l10n_pe_partner_lookup
+#. odoo-python
+#: code:addons/l10n_pe_partner_lookup/models/res_partner.py:0
+msgid "Decolecta rejected the API token. Check it in Settings."
+msgstr "Decolecta rechazó el token de la API. Revíselo en Ajustes."
+
+#. module: l10n_pe_partner_lookup
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: l10n_pe_partner_lookup
+#. odoo-python
+#: code:addons/l10n_pe_partner_lookup/models/res_partner.py:0
+msgid "Enter an 11-digit RUC or an 8-digit DNI in the Tax ID field."
+msgstr ""
+"Ingrese un RUC de 11 dígitos o un DNI de 8 dígitos en el campo Número de "
+"identificación fiscal."
+
+#. module: l10n_pe_partner_lookup
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_config_settings__id
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_partner__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_pe_partner_lookup
+#: model_terms:ir.ui.view,arch_db:l10n_pe_partner_lookup.view_partner_form_pe_lookup
+msgid "Look up in SUNAT / RENIEC"
+msgstr "Buscar en SUNAT / RENIEC"
+
+#. module: l10n_pe_partner_lookup
+#. odoo-python
+#: code:addons/l10n_pe_partner_lookup/models/res_partner.py:0
+msgid "No SUNAT/RENIEC record was found for %s."
+msgstr "No se encontró ningún registro en SUNAT/RENIEC para %s."
+
+#. module: l10n_pe_partner_lookup
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_partner__pe_sunat_warning
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_users__pe_sunat_warning
+msgid "Pe Sunat Warning"
+msgstr "Alerta SUNAT"
+
+#. module: l10n_pe_partner_lookup
+#: model_terms:ir.ui.view,arch_db:l10n_pe_partner_lookup.res_config_settings_view_form_pe_lookup
+msgid "RUC/DNI lookup"
+msgstr "Búsqueda de RUC/DNI"
+
+#. module: l10n_pe_partner_lookup
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_partner__pe_sunat_condition
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_users__pe_sunat_condition
+msgid "SUNAT Condition"
+msgstr "Condición SUNAT"
+
+#. module: l10n_pe_partner_lookup
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_partner__pe_sunat_state
+#: model:ir.model.fields,field_description:l10n_pe_partner_lookup.field_res_users__pe_sunat_state
+msgid "SUNAT Status"
+msgstr "Estado SUNAT"
+
+#. module: l10n_pe_partner_lookup
+#: model_terms:ir.ui.view,arch_db:l10n_pe_partner_lookup.view_partner_form_pe_lookup
+msgid "SUNAT lists this taxpayer as"
+msgstr "SUNAT registra a este contribuyente como"
+
+#. module: l10n_pe_partner_lookup
+#. odoo-python
+#: code:addons/l10n_pe_partner_lookup/models/res_partner.py:0
+msgid "Set the Decolecta API token in Settings > General Settings > Contacts."
+msgstr ""
+"Configure el token de la API de Decolecta en Ajustes > Ajustes generales > "
+"Contactos."
+
+#. module: l10n_pe_partner_lookup
+#. odoo-python
+#: code:addons/l10n_pe_partner_lookup/models/res_partner.py:0
+msgid "The lookup service is not responding. Try again in a moment."
+msgstr ""
+"El servicio de búsqueda no responde. Inténtelo de nuevo en un momento."
+
+#. module: l10n_pe_partner_lookup
+#: model_terms:ir.ui.view,arch_db:l10n_pe_partner_lookup.res_config_settings_view_form_pe_lookup
+msgid "Token for SUNAT and RENIEC lookups through decolecta.com"
+msgstr "Token para buscar en SUNAT y RENIEC a través de decolecta.com"

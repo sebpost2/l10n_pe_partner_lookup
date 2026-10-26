@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Fictitious contacts, loaded only with demo data. Both show the module without a Decolecta token. -->
+
+    <!-- A mistyped RUC: "Look up in SUNAT / RENIEC" rejects it locally (check digit), no API call spent. -->
+    <record id="demo_partner_mistyped_ruc" model="res.partner">
+        <field name="name">Ferretería Ejemplo SAC (RUC mal escrito)</field>
+        <field name="is_company" eval="True"/>
+        <field name="vat">20123456780</field>
+        <field name="country_id" ref="base.pe"/>
+    </record>
+
+    <!-- A contact a lookup left as NO HABIDO: the warning banner shows before anyone invoices it.
+         No RUC on purpose, so no real taxpayer is shown with that status. -->
+    <record id="demo_partner_no_habido" model="res.partner">
+        <field name="name">Distribuidora Ejemplo SAC (no habido)</field>
+        <field name="is_company" eval="True"/>
+        <field name="country_id" ref="base.pe"/>
+        <field name="pe_sunat_state">ACTIVO</field>
+        <field name="pe_sunat_condition">NO HABIDO</field>
+    </record>
+</odoo>

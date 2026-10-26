@@ -2,7 +2,7 @@
 
 [![tests](https://github.com/sebpost2/l10n_pe_partner_lookup/actions/workflows/tests.yml/badge.svg)](https://github.com/sebpost2/l10n_pe_partner_lookup/actions/workflows/tests.yml)
 
-**18 passing tests.** An Odoo 19 addon for Peru: type a RUC or DNI on a
+**19 passing tests.** An Odoo 19 addon for Peru: type a RUC or DNI on a
 contact, click once, and the contact fills itself from SUNAT or RENIEC. A
 taxpayer that SUNAT doesn't list as ACTIVO / HABIDO gets a warning before
 anyone invoices it.
@@ -31,13 +31,17 @@ anyone invoices it.
 - **Readable errors**: missing or rejected token, unknown number, timeout
   and server errors each get their own message, and none of them change
   the contact.
+- **In Spanish too**: `i18n/es.po`, with the Latin American wording of
+  Odoo's own contacts, so a Peruvian (`es_PE`) user sees the module and
+  its messages in Spanish.
 
 ![Contact filled from a RUC](docs/screenshots/ruc-lookup.png)
 ![Warning for a NO HABIDO taxpayer](docs/screenshots/no-habido-warning.png)
 ![Wrong check digit caught before calling the API](docs/screenshots/check-digit-error.png)
 
-*Screenshots use the sample record from Decolecta's public API docs and a
-fictitious company; no live lookup was made.*
+*Screenshots in Spanish (Peru). They use the sample record from
+Decolecta's public API docs and fictitious companies; no live lookup was
+made.*
 
 ## Design decisions
 
@@ -55,20 +59,26 @@ fictitious company; no live lookup was made.*
 
 ```bash
 docker compose up -d
-docker compose exec odoo odoo -d pe_lookup -i l10n_pe_partner_lookup --without-demo=all --db_host=db --db_user=odoo --db_password=odoo --stop-after-init
+docker compose exec odoo odoo -d pe_lookup -i l10n_pe_partner_lookup --with-demo --db_host=db --db_user=odoo --db_password=odoo --stop-after-init
 ```
 
-Open `http://localhost:8069`, then Settings, General Settings, Contacts, and
-paste a token from [decolecta.com](https://decolecta.com).
+Open `http://localhost:8069` (user `admin`, password `admin`). `--with-demo`
+adds two fictitious contacts that work without a token: "Ferretería Ejemplo
+SAC (RUC mal escrito)", whose lookup is refused locally for its check
+digit, and "Distribuidora Ejemplo SAC (no habido)", which shows the
+warning. For real lookups, go to Settings, General Settings, Contacts, and
+paste a token from [decolecta.com](https://decolecta.com). Drop the flag
+for an empty database.
 
 ## Running the tests
 
 ```bash
-docker compose exec odoo odoo -d pe_lookup_test -i l10n_pe_partner_lookup --test-enable --test-tags /l10n_pe_partner_lookup --stop-after-init --without-demo=all --db_host=db --db_user=odoo --db_password=odoo
+docker compose exec odoo odoo -d pe_lookup_test -i l10n_pe_partner_lookup --test-enable --test-tags /l10n_pe_partner_lookup --stop-after-init --db_host=db --db_user=odoo --db_password=odoo
 ```
 
 The HTTP client is mocked in every test, so they need no token and no
-network. CI runs them on every push against the stock `odoo:19` image.
+network. CI runs them on every push against the stock `odoo:19` image, once
+without and once with demo data.
 
 ## Scope
 
