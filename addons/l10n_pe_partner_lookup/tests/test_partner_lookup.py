@@ -2,8 +2,9 @@ from unittest.mock import Mock, patch
 
 import requests
 
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError
 from odoo.tests import Form, TransactionCase, tagged
+from odoo.tests.common import new_test_user
 
 GET = "odoo.addons.l10n_pe_partner_lookup.models.res_partner.requests.get"
 
@@ -75,11 +76,34 @@ class TestPartnerLookup(TransactionCase):
             self.partner.action_pe_lookup()
         get.assert_not_called()
 
+    def test_empty_tax_id_is_rejected(self):
+        self.partner.vat = False
+        with patch(GET) as get, self.assertRaisesRegex(UserError, "11-digit RUC or an 8-digit DNI"):
+            self.partner.action_pe_lookup()
+        get.assert_not_called()
+
+    def test_foreign_tax_id_is_not_reduced_to_its_digits(self):
+        # A Spanish tax ID that happens to hold 8 digits is not a DNI.
+        self.partner.vat = "ESA12345674"
+        with patch(GET) as get, self.assertRaisesRegex(UserError, "11-digit RUC or an 8-digit DNI"):
+            self.partner.action_pe_lookup()
+        get.assert_not_called()
+
     def test_missing_token_points_to_settings(self):
         self.env["ir.config_parameter"].sudo().set_param("l10n_pe_partner_lookup.token", False)
         self.partner.vat = "20601030013"
         with patch(GET) as get, self.assertRaisesRegex(UserError, "Settings"):
             self.partner.action_pe_lookup()
+        get.assert_not_called()
+
+    # --- access: lookups are paid for, so only users who can edit the contact may spend one
+
+    def test_user_without_write_access_cannot_spend_a_lookup(self):
+        # A portal user can read their own contact but not edit it.
+        user = new_test_user(self.env, login="pe_lookup_portal", groups="base.group_portal")
+        user.partner_id.vat = "20601030013"
+        with patch(GET) as get, self.assertRaises(AccessError):
+            user.partner_id.with_user(user).action_pe_lookup()
         get.assert_not_called()
 
     # --- RUC
@@ -108,6 +132,10 @@ class TestPartnerLookup(TransactionCase):
         get = self._lookup(" 2060 1030 013 ", _response(200, RUC_DATA))
         self.assertEqual(get.call_args.kwargs["params"], {"numero": "20601030013"})
 
+    def test_ruc_typed_with_country_prefix_and_dash_is_normalized(self):
+        get = self._lookup("PE 20-601030013", _response(200, RUC_DATA))
+        self.assertEqual(get.call_args.kwargs["params"], {"numero": "20601030013"})
+
     def test_dash_placeholders_from_sunat_become_empty(self):
         data = dict(RUC_DATA, direccion="-", distrito="-", ubigeo="-")
         self._lookup("20601030013", _response(200, data))
@@ -130,6 +158,13 @@ class TestPartnerLookup(TransactionCase):
         self._lookup("20601030013", _response(200, dict(RUC_DATA, estado="SUSPENSION TEMPORAL")))
         self.assertTrue(self.partner.pe_sunat_warning)
 
+    def test_status_with_stray_spaces_is_not_flagged(self):
+        # The provider does not trim its fields (see "direccion" in RUC_DATA).
+        self._lookup("20601030013", _response(200, dict(RUC_DATA, estado="ACTIVO ", condicion=" HABIDO")))
+        self.assertEqual(self.partner.pe_sunat_state, "ACTIVO")
+        self.assertEqual(self.partner.pe_sunat_condition, "HABIDO")
+        self.assertFalse(self.partner.pe_sunat_warning)
+
     # --- DNI
 
     def test_dni_lookup_fills_person_name_in_reading_order(self):
@@ -138,6 +173,10 @@ class TestPartnerLookup(TransactionCase):
         self.assertEqual(self.partner.name, "ROXANA KARINA DELGADO HUAMANI")
         self.assertFalse(self.partner.is_company)
         self.assertFalse(self.partner.pe_sunat_warning)
+
+    def test_dni_lookup_falls_back_to_full_name(self):
+        self._lookup("46027897", _response(200, {"full_name": "DELGADO HUAMANI ROXANA KARINA"}))
+        self.assertEqual(self.partner.name, "DELGADO HUAMANI ROXANA KARINA")
 
     def test_dni_lookup_after_a_ruc_clears_the_sunat_status(self):
         self._lookup("20601030013", _response(200, dict(RUC_DATA, condicion="NO HABIDO")))
@@ -167,6 +206,33 @@ class TestPartnerLookup(TransactionCase):
     def test_timeout(self):
         self.partner.vat = "20601030013"
         with patch(GET, side_effect=requests.Timeout), self.assertRaisesRegex(UserError, "not responding"):
+            self.partner.action_pe_lookup()
+        self.assertEqual(self.partner.name, "New contact")
+
+    def test_answer_that_is_not_json(self):
+        self.partner.vat = "20601030013"
+        response = Mock(status_code=200, json=Mock(side_effect=ValueError("not JSON")))
+        with patch(GET, return_value=response), self.assertRaisesRegex(UserError, "not responding"):
+            self.partner.action_pe_lookup()
+        self.assertEqual(self.partner.name, "New contact")
+
+    def test_answer_that_is_not_a_json_object(self):
+        self.partner.vat = "20601030013"
+        with patch(GET, return_value=_response(200, [])), self.assertRaisesRegex(UserError, "not responding"):
+            self.partner.action_pe_lookup()
+        self.assertEqual(self.partner.name, "New contact")
+
+    def test_ruc_answer_without_a_name_does_not_blank_the_contact(self):
+        self.partner.vat = "20601030013"
+        with patch(GET, return_value=_response(200, dict(RUC_DATA, razon_social=""))), \
+                self.assertRaisesRegex(UserError, "No SUNAT/RENIEC record"):
+            self.partner.action_pe_lookup()
+        self.assertEqual(self.partner.name, "New contact")
+
+    def test_dni_answer_without_a_name_does_not_blank_the_contact(self):
+        self.partner.vat = "46027897"
+        with patch(GET, return_value=_response(200, {})), \
+                self.assertRaisesRegex(UserError, "No SUNAT/RENIEC record"):
             self.partner.action_pe_lookup()
         self.assertEqual(self.partner.name, "New contact")
 
